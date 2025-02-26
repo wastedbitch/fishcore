@@ -5,7 +5,7 @@
         <p class="text-white font-mono">all cods are bastards</p>
     </div>
     <btn class=" absolute w-[100vw] h-[100vh] top-0 left-0" @click="playAudio()" loop></btn>
-    <a href="https://open.spotify.com/playlist/4XdhYCxazXCEhvxcJRfUYa?si=CDOnpMRNRrqAgLr-loUQ4Q" target="_blank" rel="noopener noreferrer" class="text-fuchsia-900 font-mono">&lt;:3&gt;&lt;.wav</a>
+    <a href="https://open.spotify.com/playlist/4XdhYCxazXCEhvxcJRfUYa?si=CDOnpMRNRrqAgLr-loUQ4Q" target="_blank" rel="noopener noreferrer" class="text-fuchsia-900 font-mono absolute w-[100vw] bottom-0 left-0 z-10">&lt;:3&gt;&lt;.wav</a>
 </template>
 
 <script>
