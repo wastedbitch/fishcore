@@ -1,0 +1,13 @@
+networks:
+  nnx:
+    external: true
+services:
+  fishcore:
+    image: fishcore:latest
+    container_name: fishcore
+    ports:
+      - "3005:3005"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - nnx
