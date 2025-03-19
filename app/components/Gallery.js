@@ -24,7 +24,7 @@ export default function GalleryClient({ images }) {
       <div className="bg rounded-lg border-[#62102f] border w-full h-full overflow-hidden lg:mb-20 pb-12">
         <div className="p-2 border-b-[#62102f] border-b flex justify-between">
           <div className="flex items-center justify-between gap-4 w-full">
-            <p className="ml-2">fishypics</p>
+            <p className="ml-2">fishy_pics</p>
             <div className="">
               <button
                 className="mr-4 text-sm text-white hover:text-[#8b1547] underline transition"

@@ -1,0 +1,15 @@
+networks:
+  nnx:
+    external: true
+services:
+  fishcore:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: fishcore
+    ports:
+      - "3005:3005"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - nnx
