@@ -1,0 +1,18 @@
+networks:
+  nnx:
+    external: true
+services:
+  devcore:
+    build:
+      context: ..
+      dockerfile: docker-dev/Dockerfile
+    container_name: devcore
+    ports:
+      - "3069:3069"
+    volumes:
+      - ..:/fishcore
+    working_dir: /fishcore
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - nnx

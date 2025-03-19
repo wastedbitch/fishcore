@@ -1,16 +1,15 @@
 #!/bin/bash
-
-echo "Stopping old dev container"
+echo "Stopping old Prod container"
 docker stop fishcore 2>/dev/null || true
 
-echo "Removing old dev container"
+echo "Removing old Prod container"
 docker rm fishcore 2>/dev/null || true
 
-# echo "Removing old dev image"
-# docker image rm fishcore 2>/dev/null || true
+echo "Removing old Prod image"
+docker image rm fishcore 2>/dev/null || true
 
-# echo "Building new dev container from Devfile"
-# docker build -t fishcore .
+echo "Building new Prod container from Dockerfile"
+docker build --no-cache -t fishcore .
 
-echo "Starting dev container with docker compose"
-docker compose -f docker/docker-compose.yaml up -d 
+echo "Starting Prod container with docker compose"
+docker compose up -d --remove-orphans
