@@ -20,7 +20,7 @@ export default function GalleryClient({ images }) {
   };
 
   return (
-    <div className="w-full h-full pt-8 px-4 lg:px-0 lg:py-4">
+    <div className="w-full h-full">
       <div className="bg rounded-lg border-[#62102f] border w-full h-full overflow-hidden lg:mb-20 pb-12">
         <div className="p-2 border-b-[#62102f] border-b flex justify-between">
           <div className="flex items-center justify-between gap-4 w-full">
