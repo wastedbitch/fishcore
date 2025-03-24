@@ -17,7 +17,7 @@ export default function Home() {
 
 	const handleClick = () => {
 		setShowMarquee(true);
-		setAudioPlayed(true); // Start the audio playback
+		setAudioPlayed(true);
 	};
 
 	return (
