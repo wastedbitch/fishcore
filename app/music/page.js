@@ -141,7 +141,7 @@ export default function Musicplayer() {
               className={`w-full text-left p-2 mb-2 rounded flex items-center ${
                 currentPlaylist === playlist
                   ? "bg-[#62102f] text-white"
-                  : "text-gray-700 hover:bg-gray-100"
+                  : "text-neutral-400 hover:bg-neutral-800"
               }`}
             >
               <span className="lg:hidden">{playlists[playlist].emoji}</span>
