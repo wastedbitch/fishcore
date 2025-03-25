@@ -45,7 +45,7 @@ export default function GalleryClient({ images }) {
             className={`p-4 transition-all ${
               isListView
                 ? "grid grid-cols-1 gap-4"
-                : "grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4"
+                : "grid grid-cols-3 gap-4"
             }`}
           >
             {[...images].reverse().map((image, index) => (
@@ -73,8 +73,8 @@ export default function GalleryClient({ images }) {
                 <Image
                   src={`/gallery/${image}`}
                   alt={`Image ${index}`}
-                  width={isListView ? 1080 : 256}
-                  height={isListView ? 1080 : 256}
+                  width={isListView ? 1080 : 512}
+                  height={isListView ? 1080 : 512}
                   className={`rounded-lg shadow-md object-contain w-full ${
                     isListView ? "h-auto" : ""
                   }`}

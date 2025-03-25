@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 
 export const metadata = {
   title: {default: 'FISHCORE',template: 'FISH-%s'},
-  description: "FISH'S IN SPACE, ALL'S RIGHT WITH THE WORLD",
+  description: "FISH'S IN SPACE, ALL'S RIGHT WITH THE OCEAN",
 };
 
 export default function RootLayout({ children }) {
