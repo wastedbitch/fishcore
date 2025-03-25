@@ -1,65 +1,38 @@
 "use client";
-
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useState } from "react";
-
+require('dotenv').config();
 
 const playlists = {
   Schizotwinkcore: {
-    emoji: "😼",
+    emoji: "🐟",
     coverImage: "/music/schizo.jpg",
     link: "https://open.spotify.com/playlist/1gF5i7D4z0dBYqDZFiYNCg?si=M3ayQCZpSkmdggz-Up9A5w",
     desc: "Dear Federal Agents, all my posts are 100% serious & i am a threat to society",
     tracks: [
-      "https://open.spotify.com/track/6P8MQad00pfzD3XSLS2cDe?si=1a785c8e603947be",
-      "https://open.spotify.com/track/5hnktvtMR96jGKA54FEi7U?si=83702ceda1934b4b",
-      "https://open.spotify.com/track/0QAx0ZM4h0tPmOtXGHQVqU?si=715d972adb9f40c1",
-      "https://open.spotify.com/track/0kGAoSq5IEG8JyZ8W4swyL?si=95393bd811184522",
-      "https://open.spotify.com/track/4ZapAR5XjoPEtsDHUG6cad?si=eb3e7e641c7a4480",
-      "https://open.spotify.com/track/2Zj1mz5b791QYiY388iBC5?si=dc6312f8cffe4783",
-      "https://open.spotify.com/track/0bMYQjhqOV3CoqE7OcRIBv?si=0aa9a20a3dea41d6",
-      "https://open.spotify.com/track/4wFeMmJDlgkAxlQ07PbdGZ?si=7fd67c76b4cd46fa",
-      "https://open.spotify.com/track/5jUQFLVwMtB1YBqrD22cDH?si=937b43c618a945e5",
-      "https://open.spotify.com/track/3wbZL3jeYCiuG8e5hRbofl?si=a7c9c026f16643d1",
-      "https://open.spotify.com/track/2kwKk1pkWM6ywaC4gQaByB?si=6e6a4ba81afb4bea",
-      "https://open.spotify.com/track/2o1Deu2r99ZkkQwQ27LnZd?si=e0669d3945fc4c04",
-      "https://open.spotify.com/track/4T1oZ3UAFKbraSp5JAISWW?si=428881a0224b4d16",
-      "https://open.spotify.com/track/0gibqBM6LEYReGW1ZjyEKY?si=ce04b4261fe343f9",
-      "https://open.spotify.com/track/6d67Xv8ms2noA8wWFLiPDN?si=1a092bee1b2c4065",
-      "https://open.spotify.com/track/0Pie5DFAHHxpkONFUsAI6s?si=35d95e0ef069495b",
-      "https://open.spotify.com/track/65ZatbSElf6kAzqQ79xzPb?si=bff295c0280d4492",
-      "https://open.spotify.com/track/4Nf3j6BzVhqf0AFTQPgaTC?si=3119ae42922443f2",
-      "https://open.spotify.com/track/4WXonRUcCdP2xmfRkLDoL7?si=3f0b6e5b137d480a",
-      "https://open.spotify.com/track/0RD3NWnHlyBCRwgNZy8QAn?si=687825a6498c496b",
-      "https://open.spotify.com/track/3MF3Zj7bYl1PdARlzqfwYC?si=adf646fee3c84b56",
-    ],
-  },
-  SuicidalGirlypopClassics: {
-    emoji: "🎀",
-    coverImage: "/music/girlypop.jpg",
-    link: "https://open.spotify.com/playlist/6nMKr1GgKXLE0RZ7GQVlVq?si=CZElYHUPQ5K47pjrVv08rQ",
-    desc: "meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow",
-    tracks: [
-      "https://open.spotify.com/track/1Myqi1Jjaz7n3M67BXQI4C?si=aae5c1c810914831",
-      "https://open.spotify.com/track/2Htw2wEVQhzJhO5iRDTwkG?si=576c5950f5fe4e4c",
-      "https://open.spotify.com/track/43m6TDNjIYvDjkjUW9eraa?si=bf81c534921444f4",
-      "https://open.spotify.com/track/4ZWvxigw0eCW3Lvi7dtQIM?si=87096b62670c470e",
-      "https://open.spotify.com/track/0dlXj3DP3br6lhddh0Tr8k?si=c6834a4dd79c42c9",
-      "https://open.spotify.com/track/1MU2Gb5aCAYWvT6qbU2Rk7?si=709773d58e6f4432",
-      "https://open.spotify.com/track/6TU5KcMHtNgybYLnyUdQ5d?si=16ba983197054a2b",
-      "https://open.spotify.com/track/2CmzxBxC5mOlIWDLMRSAwZ?si=a11c35a45c274b09",
-      "https://open.spotify.com/track/5JbnCOb18ygGlIviobB0iV?si=e7981577ac7a48d6",
-      "https://open.spotify.com/track/7JHKi65fhsh12B86z4C9FM?si=995aa3e1218e49af",
-      "https://open.spotify.com/track/1jxGTlQh6vJBgn6DCKP67O?si=fc50623af593415c",
-      "https://open.spotify.com/track/5Sj3A3Nr0jLiJoet9fxuzz?si=67f50457c6b74c88",
-      "https://open.spotify.com/track/4oULiI3U4vzm6QsqZH9HI9?si=1ce08c59f29548b0",
-      "https://open.spotify.com/track/0cfT50hK1oqNc47VahyegT?si=7a19ff65aaa34df3",
-      "https://open.spotify.com/track/3qaMprRWLGggArD14diXYz?si=d44965e7e3934e49",
-      "https://open.spotify.com/track/3xGqpwa2HDYOomN6X0pene?si=390708e1dc004320",
-      "https://open.spotify.com/track/5C85mGeek4UhNoTFliN29L?si=8c4600d2c7834f11",
-      "https://open.spotify.com/track/0MaxvnFJG2FlpLMR9Hr20d?si=5fcc965e13a94e6d",
-      "https://open.spotify.com/track/0lJor2xK9yTKpR7EAxKAZk?si=91c545df196d4999",
-      "https://open.spotify.com/track/4EyRzm7uOdc9PNV9lzs3Tr?si=5f2694ce100844e0",
+      "0uC12dZW5lmali7cC3N6VS",
+      "0QAx0ZM4h0tPmOtXGHQVqU",
+      "7ALGwGssBFchbO3sClagPu",
+      "25SRFuJqLVrgApeFw4vFCb",
+      "7Ed3Pt1iwsZo4Ro4kq2ujm",
+      "0bMYQjhqOV3CoqE7OcRIBv",
+      "3zixzwkqDUbkGYTz9QALGN",
+      "5DyWv22uBarGeTDh8Hji0a",
+      "5PQwmOZwMhhV8q8QMpCRAZ",
+      "4ZapAR5XjoPEtsDHUG6cad",
+      "2SVjV9ASa0HZFnKVYVmvAD",
+      "0Pie5DFAHHxpkONFUsAI6s",
+      "4vwHBxN5OGtUqqUWvWClGd",
+      "34KQ2ulA3YlNxPuUhJUcUy",
+      "5xCDpuwEplVkm6C3eABxGy",
+      "1rU8C0FoUSQBVQLX1gwFH9",
+      "66fOyR2G0kf8hH9NMTbIBQ",
+      "4F0Tzpl5dPK7lalFCDChdg",
+      "5fwGZXqyNtktLPVVUrVn0F",
+      "2kwKk1pkWM6ywaC4gQaByB",
+      "6ozkDhMnz56X34jZAJBioy",
+      "3Bn03NMz1k6GYadHCkm02x",
+      "0pAxWzo6OGqwoJCxJiOLpn",
     ],
   },
   Lobotomycore: {
@@ -68,76 +41,275 @@ const playlists = {
     link: "https://open.spotify.com/playlist/52GEyJJcsIUdc03OkZPygT?si=6JO0UcQURf6bUt8r9HCL2w",
     desc: "Live Laugh Lobotomy",
     tracks: [
-      "https://open.spotify.com/track/3YbMdHrZlBALzNw3LFyZWp?si=b7d8722a6252490d",
-      "https://open.spotify.com/track/10HsOaiUUodfgEfhwl6xiD?si=21658315f5884dfc",
-      "https://open.spotify.com/track/5egAk3R4HLzlB7wPCaU0ow?si=9e211c2ceeb148a5",
-      "https://open.spotify.com/track/0l9IiOVG9Uqn8tArEMfvBw?si=63c5fa196611405b",
-      "https://open.spotify.com/track/3QjzkfE5lCcs0JTrpqABpa?si=8f1e689acb8d4f93",
-      "https://open.spotify.com/track/0V36ohSgy0Fq4MyqNORyFO?si=4698b2aad2024e48",
-      "https://open.spotify.com/track/46yq4nc3C7BHtvypKhqfnP?si=aa3d6c77ccc445e9",
-      "https://open.spotify.com/track/06yZoObVFRQqPhQNTdCHV5?si=7895f73a8538489c",
-      "https://open.spotify.com/track/54MIP08c9VnoWcs0hAZIkg?si=fb6f06c592614f1a",
-      "https://open.spotify.com/track/3sGHk7kt8tobGR3NSkg9QO?si=7b536dc2056e4a15",
-      "https://open.spotify.com/track/3AqSjZYCTQmrExko0zOIgF?si=be00e3ed18cf4665",
-      "https://open.spotify.com/track/6tpXGyQlgkRAp75N1aJD9z?si=355162e39e624b7c",
-      "https://open.spotify.com/track/7t7LJcNxwfN9HhosWBBTSA?si=6b6213c8400e4717",
-      "https://open.spotify.com/track/0V7lyAvWChiwVdIB9jwR8g?si=62538159cb624b27",
-      "https://open.spotify.com/track/4LsYdWDeumtYjMndQVcA94?si=c2d5722a93184e83",
-      "https://open.spotify.com/track/4stVO8v5EBQEcnFXU7sppf?si=b34725300e8d4e30",
+      "3YbMdHrZlBALzNw3LFyZWp",
+      "10HsOaiUUodfgEfhwl6xiD",
+      "0V7lyAvWChiwVdIB9jwR8g",
+      "6AnVsHU2UBgotXkwIIiccl",
+      "0V36ohSgy0Fq4MyqNORyFO",
+      "54MIP08c9VnoWcs0hAZIkg",
+      "6tpXGyQlgkRAp75N1aJD9z",
+      "06yZoObVFRQqPhQNTdCHV5",
+      "09mXjDUGHd0Wsc1XvK7AZ4",
+      "3sGHk7kt8tobGR3NSkg9QO",
+      "3AqSjZYCTQmrExko0zOIgF",
+      "7t7LJcNxwfN9HhosWBBTSA",
+      "2Pe4v3NYuvjeV1qCOMoAgR",
+      "35qKVXD1R34c4KRUXHbJSb",
+      "3QjzkfE5lCcs0JTrpqABpa",
+      "0lJor2xK9yTKpR7EAxKAZk",
+      "6fX36zMIsn8kAQFEBQIQWq",
+      "2DBu4JWU3dwtPZZsDprrbs",
+      "5aw7B9GYVO1GR1Mq2mQn83",
+      "6QGIKvF1GAMWjYhBJA3rIy",
+      "0Grb4paXdFDqSgGvPK07p4",
+      "7bYwcYwvmMFtRrwOhwUwQm",
+      "6wk75FvDzYWTirtXYvYEgH",
     ],
   },
-  GecGecGec: {
-    emoji: "🦎",
-    coverImage: "/music/gecs.jpg",
-    link: "https://open.spotify.com/playlist/17uHB2XggX9BXnxwBOTRO8?si=KXFJPuzkSc2TvoO_5Iq2UA",
-    desc: "Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec Gec ",
+  SuicidalGirlypopClassics: {
+    emoji: "🎀",
+    coverImage: "/music/girlypop.jpg",
+    link: "https://open.spotify.com/playlist/6nMKr1GgKXLE0RZ7GQVlVq?si=CZElYHUPQ5K47pjrVv08rQ",
+    desc: "meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow",
     tracks: [
-      "https://open.spotify.com/track/0qMZXgcLfkl5RI3q50KHMH?si=93856df89f0540f8",
-      "https://open.spotify.com/track/4vwHBxN5OGtUqqUWvWClGd?si=92b84cb46eca482c",
-      "https://open.spotify.com/track/0oigSejhoNen2EdNAIFcm5?si=c0d87a2352ad47e3",
-      "https://open.spotify.com/track/5YgXVo1eBpGSsLFhRkrwQw?si=316416fb39ba486d",
-      "https://open.spotify.com/track/2T93MtJuKMzcGRTR8fdizV?si=a9ed5d88d57d4de7",
-      "https://open.spotify.com/track/7CUkeiG7QtB7tPU9f8SANS?si=c8b736d434774d6d",
-      "https://open.spotify.com/track/1hJN8hZvzEvOvqX32jSSrw?si=4205bb1505ee435d",
-      "https://open.spotify.com/track/1j581GCDFQ9P8xd6fyjgLt?si=7134590d4f8c455c",
-      "https://open.spotify.com/track/6jgkLS7ADwuNskZyQ4cNbm?si=b2a4eb6dcbf34cff",
+        "1Myqi1Jjaz7n3M67BXQI4C",
+        "49PU6Z1Mzlsf9OSu0pgw2u",
+        "3okPUcnHOZ57Wzjc8cvaK9",
+        "3hXwlWfjPADePN28QRxOn8",
+        "1jxGTlQh6vJBgn6DCKP67O",
+        "2CmzxBxC5mOlIWDLMRSAwZ",
+        "7x6J9kurieqnLCYjLpkRbS",
+        "5Sj3A3Nr0jLiJoet9fxuzz",
+        "66FnhZd2teeIz8TZrr0omv",
+        "0cfT50hK1oqNc47VahyegT",
+        "0vqOcnyTzyCjmsoF51Ma4F",
+        "3qaMprRWLGggArD14diXYz",
+        "4UQijskfH7GRycjz77buzW",
+        "7Kp3FKbdDiQEWm01H05Yu1",
+        "6TU5KcMHtNgybYLnyUdQ5d",
+        "0dlXj3DP3br6lhddh0Tr8k",
+        "5dRQwKAbINDNsblNZ9b8ex",
+        "4oULiI3U4vzm6QsqZH9HI9",
+        "3xGqpwa2HDYOomN6X0pene",
+        "6yt46G7lWn0oC2FEZZDsi6",
+        "37KOuKPPKkwwWzp1Zg0etM",
+        "4EyRzm7uOdc9PNV9lzs3Tr",
+        "3MF3Zj7bYl1PdARlzqfwYC",
     ],
   },
 };
 
-export default function Musicplayer() {
-  const [currentPlaylist, setCurrentPlaylist] = useState(Object.keys(playlists)[0]);
+const loadingAnimation2 = [
+  "⋆｡˚ 𓆞 𓆝 𓆟 𓆞 𓆝 𓆟 ⋆｡˚",
+  "⋆｡˚ 𓆝 𓆟 𓆞 𓆝 𓆟 𓆞 ⋆｡˚",
+  "⋆｡˚ 𓆟 𓆞 𓆝 𓆟 𓆞 𓆝 ⋆｡˚",
+];
 
-  const handlePlaylistChange = (playlist) => {
-    setCurrentPlaylist(playlist);
+const loadingAnimation1 = [
+  "⋆｡˚ __ __ __ __ 𓆝 ⋆｡˚",
+  "⋆｡˚ __ __ __ 𓆟 __ ⋆｡˚",
+  "⋆｡˚ __ __ 𓆞 __ __ ⋆｡˚",
+  "⋆｡˚ __ 𓆟 __ __ __ ⋆｡˚",
+  "⋆｡˚ 𓆝 __ __ __ __ ⋆｡˚"
+];
+
+const loadingAnimation = [
+  "[__________________<:3><]",
+  "[_________________<:3><_]",
+  "[________________<:3><__]",
+  "[_______________<:3><___]",
+  "[______________<:3><____]",
+  "[_____________<:3><_____]",
+  "[____________<:3><______]",
+  "[___________<:3><_______]",
+  "[__________<:3><________]",
+  "[_________<:3><_________]",
+  "[________<:3><__________]",
+  "[_______<:3><___________]",
+  "[______<:3><____________]",
+  "[_____<:3><_____________]",
+  "[____<:3><______________]",
+  "[___<:3><_______________]",
+  "[__<:3><________________]",
+  "[_<:3><_________________]",
+  "[<:3><__________________]",
+  "[:3><___________________]",
+  "[3><____________________]",
+  "[><_____________________]",
+  "[<______________________]",
+  "[______________________<]",
+  "[_____________________<:]",
+  "[____________________<:3]",
+  "[___________________<:3>]",
+];
+export default function MusicPlayer() {
+  const [currentPlaylist, setCurrentPlaylist] = useState(Object.keys(playlists)[0]);
+  const [tracksData, setTracksData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+  const [loadingFrame, setLoadingFrame] = useState(0);
+
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      interval = setInterval(() => {
+        setLoadingFrame((prev) => (prev + 1) % loadingAnimation.length);
+      }, 100);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
+
+  useEffect(() => {
+    const fetchTracks = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const trackIds = playlists[currentPlaylist].tracks;
+        const tracks = [];
+        
+        for (const id of trackIds) {
+          try {
+            const res = await fetch(`/api/spotify/tracks/${id}`);
+            if (!res.ok) throw new Error('Failed to fetch track', res);
+            
+            const track = await res.json();
+            tracks.push({
+              ...track,
+              id: id,
+              previewUrl: `/preview/${id}.mp3`
+            });
+          } catch (err) {
+            console.error(`Error fetching track ${url}:`, err);
+          }
+        }
+        
+        setTracksData(tracks);
+      } catch (err) {
+        console.error("Error fetching tracks:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTracks();
+  }, [currentPlaylist]);
+
+  const playTrack = (index) => {
+    if (currentTrackIndex === index && isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      setCurrentTrackIndex(index);
+      setIsPlaying(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!audioRef.current || currentTrackIndex === null) return;
+
+    const playAudio = async () => {
+      try {
+        audioRef.current.src = tracksData[currentTrackIndex]?.previewUrl || '';
+        await audioRef.current.play();
+        setIsPlaying(true);
+      } catch (err) {
+        console.error("Playback failed:", err);
+        setIsPlaying(false);
+      }
+    };
+
+    if (isPlaying) {
+      playAudio();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [currentTrackIndex, isPlaying, tracksData]);
+
+  const handleNext = () => {
+    if (currentTrackIndex === null || currentTrackIndex >= tracksData.length - 1) {
+      // End of playlist - pause and reset to first track
+      setCurrentTrackIndex(0);
+      setIsPlaying(false);
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    } else {
+      setCurrentTrackIndex(currentTrackIndex + 1);
+      setIsPlaying(true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentTrackIndex === null || currentTrackIndex <= 0) {
+      setCurrentTrackIndex(tracksData.length - 1);
+    } else {
+      setCurrentTrackIndex(currentTrackIndex - 1);
+    }
+    setIsPlaying(true);
+  };
+
+  const handlePlayPause = () => {
+    if (currentTrackIndex === null) {
+      setCurrentTrackIndex(0);
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
   };
 
   return (
-    <div className="bg rounded-lg border-[#62102f] border w-full h-full overflow-hidden lg:mb-20 pb-12">
-      <div className="p-2 border-b-[#62102f] border-b flex justify-between">
-        <div className="ml-2">FishTunes</div>
-        <div className="hover:text-[#8b1547] mr-2">
-          <Link href="/">x</Link>
+<div className="bg rounded-lg border-[#62102f] border w-full h-full flex flex-col">
+  <audio
+    ref={audioRef}
+    onEnded={handleNext}
+    onError={() => setIsPlaying(false)}
+  />
+  
+  {/* main window header */}
+  <div className="p-2 border-b-[#62102f] border-b flex justify-between">
+    <div className="ml-2">FishTunes</div>
+    <div className="hover:text-[#8b1547] mr-2">
+      <Link href="/">x</Link>
+    </div>
+  </div>
+
+  {/* mobile top bar */}
+  <div className="block lg:hidden p-2 text-center border-b border-[#62102f]">
+    <Link href={playlists[currentPlaylist].link}  target="_blank" rel="noopener noreferrer" className="hover:text-[#62102f] font-bold underline">
+      {currentPlaylist}
+    </Link>
+  </div>
+
+  {/* main content area */}
+  <div className="flex flex-1 overflow-hidden">
+    {/* left sidebar */}
+    <div className="w-1/5 border-r border-[#62102f] flex flex-col">
+      <div className="p-4 hidden md:block flex-1 overflow-y-hidden max-h-[30rem]">
+        <img
+          src={playlists[currentPlaylist].coverImage}
+          alt={`${currentPlaylist} cover`}
+          className="w-full rounded-lg"
+        />
+        <div className="mt-6 mb-2">
+          <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-[#62102f] underline">
+            {currentPlaylist}
+          </Link>
         </div>
+        <p className="text-neutral-400">{playlists[currentPlaylist].desc}</p>
       </div>
 
-      {/* Mobile Top Bar */}
-      <div className="block lg:hidden p-2 text-center border-b border-[#62102f]">
-        <Link href={playlists[currentPlaylist].link} className="hover:text-[#62102f] font-bold underline">
-          {currentPlaylist}
-        </Link>
-      </div>
-
-      {/* Main Grid + Sidebars */}
-      <div className="flex h-full">
-
-        {/* Left Sidebar */}
-        <div className="w-1/5 p-4 border-r border-[#62102f]">
-          <h2 className="text-lg font-bold mb-4 hidden lg:block">Playlists</h2>
+      <div className="p-4 border-t border-t-[#62102f]">
+        <h2 className="text-lg font-bold mb-4 hidden lg:block">Playlists</h2>
+        <div className="overflow-y-auto max-h-[200px]">
           {Object.keys(playlists).map((playlist) => (
             <button
               key={playlist}
-              onClick={() => handlePlaylistChange(playlist)}
+              onClick={() => setCurrentPlaylist(playlist)}
               className={`w-full text-left p-2 mb-2 rounded flex items-center ${
                 currentPlaylist === playlist
                   ? "bg-[#62102f] text-white"
@@ -149,39 +321,132 @@ export default function Musicplayer() {
             </button>
           ))}
         </div>
+      </div>
+    </div>
 
-        {/* Music Grid */}
-        <div className="flex-1 p-4 overflow-y-scroll">
-          <div className="grid grid-cols-1 gap-4">
-            {playlists[currentPlaylist].tracks.map((link, index) => (
-              <div key={index} className="w-full">
-                <iframe
-                  src={`https://open.spotify.com/embed/track/${link.split("/track/")[1]}`}
-                  width="100%"
-                  height="80"
-                  frameBorder="0"
-                  allowtransparency="true"
-                  allow="encrypted-media"
-                ></iframe>
+    {/* music grid container */}
+    <div className="flex-1 flex flex-col overflow-hidden">
+      {/* scrollable tracks list */}
+      <div className="flex-1 p-4 overflow-y-auto">
+        {loading ? (
+          <div className="h-full flex flex-col items-center justify-center space-y-4">
+            <div className="text-center font-mono whitespace-pre">
+              {loadingAnimation[loadingFrame]}
+            </div>
+            <div className="text-center text-xl">Loading tracks</div>
+          </div>
+        ) : error ? (
+          <div className="h-full flex items-center justify-center">
+            <div className="text-center text-xl text-red-500">Error: {error}</div>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-2">
+              {tracksData.map((track, index) => (
+                <div 
+                  key={track.id} 
+                  className={`p-3 rounded-lg cursor-pointer hover:bg-neutral-800 ${
+                    currentTrackIndex === index ? 'bg-[#62102f]' : 'bg-neutral-900'
+                  }`}
+                  onClick={() => playTrack(index)}
+                >
+                  <div className="flex items-center">
+                    <div className="mr-2 w-4 h-4 md:w-8 md:h-8 flex items-center justify-center">
+                      {currentTrackIndex === index && isPlaying ? (
+                        <span className="text-white">&gt;</span>
+                      ) : (
+                        <span className="text-neutral-400">{index + 1}</span>
+                      )}
+                    </div>
+                    <div className="flex-1 overflow-hidden">
+                      <div className="font-medium text-white truncate">{track.name}</div>
+                      <div className="text-sm text-neutral-400 truncate">
+                        {track.artists[0]?.name}
+                      </div>
+                    </div>
+                    <div className="text-xs text-neutral-500 hidden md:block">
+                      {track.previewUrl ? (
+                        <span>30s Preview</span>
+                      ) : (
+                        <span className="text-red-400">No Preview</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* full playlist link */}
+            <div className="pt-4">
+              <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[#62102f] underline text-center block">
+                Full Playlist
+              </Link>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* controls section - hidden while loading */}
+  {!loading && !error && (
+    <div className="border-t border-[#62102f] p-3 ">
+      <div className="flex items-center justify-around">
+        <div className="md:w-1/3 flex items-center min-w-0">
+          {currentTrackIndex !== null && tracksData[currentTrackIndex] && (
+            <Link href={`https://open.spotify.com/track/${tracksData[currentTrackIndex].id}`} target="_blank" rel="noopener noreferrer" className="">
+              <div className="flex items-center">
+              <img 
+                src={tracksData[currentTrackIndex].album.images[0]?.url} 
+                alt="Album cover" 
+                className="w-12 h-12 rounded mr-3 flex-shrink-0"
+              />
+              <div className="min-w-0 truncate">
+                <div className="font-medium text-white text-sm truncate">
+                  {tracksData[currentTrackIndex].name}
+                </div>
+                <div className="text-xs text-neutral-400 truncate">
+                  {tracksData[currentTrackIndex].artists[0]?.name}
+                </div>
               </div>
-            ))}
-            <Link href={playlists[currentPlaylist].link} className="font-bold mt-2 hover:text-[#62102f] underline text-center pb-8">Full Playlist</Link>
-          </div>
-        </div>
+              </div>
 
-        {/* Right Sidebar */}
-        <div className="hidden lg:block w-1/5 p-4 border-l border-[#62102f]">
-          <div className="">
-            <img
-              src={playlists[currentPlaylist].coverImage}
-              alt={`${currentPlaylist} cover`}
-              className="w-full rounded-lg"
-            />
-            <div className=" mt-6 mb-2"><Link href={playlists[currentPlaylist].link} className="text-lg font-bold hover:text-[#62102f] underline">{currentPlaylist}</Link></div>
-            <p className="text-neutral-400">{playlists[currentPlaylist].desc}</p>
-          </div>
+            </Link>
+          )}
+        </div>
+        
+        <div className="flex-1 flex items-center justify-end md:justify-center md:space-x-6">
+          <button 
+            onClick={handlePrevious}
+            className="text-white hover:text-[#62102f] text-xl hidden md:block"
+          >
+            &lt;
+          </button>
+          <button 
+            onClick={handlePlayPause}
+            className="bg-[#62102f] text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#8b1547] flex-shrink-0"
+          >
+            {isPlaying ? 'X' : 'O'}
+          </button>
+          <button 
+            onClick={handleNext}
+            className="text-white hover:text-[#62102f] text-xl hidden md:block"
+          >
+            &gt;
+          </button>
+        </div>
+        
+        <div className="w-1/3 text-right text-xs text-neutral-400 hidden md:block">
+          {currentTrackIndex !== null && tracksData[currentTrackIndex] && (
+            <div className="truncate">
+              <Link href={`https://open.spotify.com/track/${tracksData[currentTrackIndex].id}`} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                Listen on Spotify
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
+  )}
+</div>
   );
 }

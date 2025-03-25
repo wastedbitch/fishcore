@@ -23,7 +23,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="w-full h-full grid grid-cols-1 grid-rows-3 lg:grid-rows-3 lg:grid-cols-3 px-4 lg:px-0">
+    <div className="w-full h-full grid grid-cols-1 grid-rows-3 lg:grid-rows-3 lg:grid-cols-3 lg:px-0">
         <div className="hidden col-start-1 row-start-1 my-auto lg:block mx-auto"><Clippy></Clippy></div>
         <div className="hidden lg:block col-start-2 row-start-2" onClick={handleClick}><Acab ></Acab></div>
         <div className="flex flex-col-reverse lg:mb-24 row-span-3 col-start-1 row-start-1 lg:col-start-3 lg:row-start-2 mt-8 lg:mt-0"><div className="h-full"><Chatbox></Chatbox></div></div>
