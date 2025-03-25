@@ -9,7 +9,5 @@ services:
       - "3005:3005"
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - NEXT_PUBLIC_SPOTIFY_CLIENT_ID=ade84d405fdc4f77b7593ef3cf8ee7af
-      - NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET=5b948eb2ffbf4cd385af59efe54d3a0e
     networks:
       - nnx

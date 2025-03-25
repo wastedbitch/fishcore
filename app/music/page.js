@@ -174,7 +174,7 @@ export default function MusicPlayer() {
         for (const id of trackIds) {
           try {
             const res = await fetch(`/api/spotify/tracks/${id}`);
-            if (!res.ok) throw new Error('Failed to fetch track', res);
+            if (!res.ok) throw new Error('Failed to fetch track', res.status);
             
             const track = await res.json();
             tracks.push({
@@ -183,7 +183,7 @@ export default function MusicPlayer() {
               previewUrl: `/preview/${id}.mp3`
             });
           } catch (err) {
-            console.error(`Error fetching track ${url}:`, err);
+            console.error(`Error fetching track ${id}:`, err);
           }
         }
         
