@@ -70,7 +70,7 @@ const playlists = {
     emoji: "🎀",
     coverImage: "/music/girlypop.jpg",
     link: "https://open.spotify.com/playlist/6nMKr1GgKXLE0RZ7GQVlVq?si=CZElYHUPQ5K47pjrVv08rQ",
-    desc: "meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow",
+    desc: "meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow",
     tracks: [
         "1Myqi1Jjaz7n3M67BXQI4C",
         "49PU6Z1Mzlsf9OSu0pgw2u",
@@ -152,10 +152,8 @@ export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   const [loadingFrame, setLoadingFrame] = useState(0);
-  const [showPlaylistInfo, setShowPlaylistInfo] = useState(false); // New state for mobile view toggle
-    const [playlistCache, setPlaylistCache] = useState({});
-  // New state for skeleton loading
-  const [initialLoad, setInitialLoad] = useState(true);
+  const [showPlaylistInfo, setShowPlaylistInfo] = useState(false);
+
   
   useEffect(() => {
     let interval;
@@ -243,7 +241,6 @@ export default function MusicPlayer() {
 
   const handleNext = () => {
     if (currentTrackIndex === null || currentTrackIndex >= tracksData.length - 1) {
-      // End of playlist - pause and reset to first track
       setCurrentTrackIndex(0);
       setIsPlaying(false);
       if (audioRef.current) {
@@ -355,13 +352,15 @@ export default function MusicPlayer() {
           {/* Mobile playlist info view (replaces tracks when toggled) */}
           {showPlaylistInfo ? (
             <div className="lg:hidden p-4 pt-0 overflow-y-auto flex flex-col gap-4">
-              <div className="flex gap-4 h-1/3">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-1">
                 <img
                   src={playlists[currentPlaylist].coverImage}
                   alt={`${currentPlaylist} cover`}
-                  className="mx-auto rounded-lg mb-6 w-1/3 h-full"
+                  className="mx-auto rounded-lg mb-6"
                 />
-              <div className="mb-4 w-2/3">
+                </div>
+              <div className="col-span-2">
                 <p className="text-neutral-400 mb-4">{playlists[currentPlaylist].desc}</p>
               </div>
               </div>
