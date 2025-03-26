@@ -142,6 +142,7 @@ const loadingAnimation = [
   "[____________________<:3]",
   "[___________________<:3>]",
 ];
+
 export default function MusicPlayer() {
   const [currentPlaylist, setCurrentPlaylist] = useState(Object.keys(playlists)[0]);
   const [tracksData, setTracksData] = useState([]);
@@ -151,7 +152,11 @@ export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   const [loadingFrame, setLoadingFrame] = useState(0);
-
+  const [showPlaylistInfo, setShowPlaylistInfo] = useState(false); // New state for mobile view toggle
+    const [playlistCache, setPlaylistCache] = useState({});
+  // New state for skeleton loading
+  const [initialLoad, setInitialLoad] = useState(true);
+  
   useEffect(() => {
     let interval;
     if (loading) {
@@ -165,6 +170,12 @@ export default function MusicPlayer() {
   useEffect(() => {
     const fetchTracks = async () => {
       try {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        setIsPlaying(false);
+        setCurrentTrackIndex(null);
+
         setLoading(true);
         setError(null);
         
@@ -263,129 +274,181 @@ export default function MusicPlayer() {
   };
 
   return (
-<div className="bg rounded-lg border-[#62102f] border w-full h-full flex flex-col">
-  <audio
-    ref={audioRef}
-    onEnded={handleNext}
-    onError={() => setIsPlaying(false)}
-  />
-  
-  {/* main window header */}
-  <div className="p-2 border-b-[#62102f] border-b flex justify-between">
-    <div className="ml-2">FishTunes</div>
-    <div className="hover:text-[#8b1547] mr-2">
-      <Link href="/">x</Link>
-    </div>
-  </div>
-
-  {/* mobile top bar */}
-  <div className="block lg:hidden p-2 text-center border-b border-[#62102f]">
-    <Link href={playlists[currentPlaylist].link}  target="_blank" rel="noopener noreferrer" className="hover:text-[#62102f] font-bold underline">
-      {currentPlaylist}
-    </Link>
-  </div>
-
-  {/* main content area */}
-  <div className="flex flex-1 overflow-hidden">
-    {/* left sidebar */}
-    <div className="w-1/5 border-r border-[#62102f] flex flex-col">
-      <div className="p-4 hidden md:block flex-1 overflow-y-hidden max-h-[30rem]">
-        <img
-          src={playlists[currentPlaylist].coverImage}
-          alt={`${currentPlaylist} cover`}
-          className="w-full rounded-lg"
-        />
-        <div className="mt-6 mb-2">
-          <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-[#62102f] underline">
-            {currentPlaylist}
-          </Link>
-        </div>
-        <p className="text-neutral-400">{playlists[currentPlaylist].desc}</p>
-      </div>
-
-      <div className="p-4 border-t border-t-[#62102f]">
-        <h2 className="text-lg font-bold mb-4 hidden lg:block">Playlists</h2>
-        <div className="overflow-y-auto max-h-[200px]">
-          {Object.keys(playlists).map((playlist) => (
-            <button
-              key={playlist}
-              onClick={() => setCurrentPlaylist(playlist)}
-              className={`w-full text-left p-2 mb-2 rounded flex items-center ${
-                currentPlaylist === playlist
-                  ? "bg-[#62102f] text-white"
-                  : "text-neutral-400 hover:bg-neutral-800"
-              }`}
-            >
-              <span className="lg:hidden">{playlists[playlist].emoji}</span>
-              <span className="hidden lg:inline">{playlist}</span>
-            </button>
-          ))}
+    <div className="bg rounded-lg border-[#62102f] border w-full h-full flex flex-col">
+      <audio
+        ref={audioRef}
+        onEnded={handleNext}
+        onError={() => setIsPlaying(false)}
+      />
+      
+      {/* main window header */}
+      <div className="p-2 border-b-[#62102f] border-b flex justify-between">
+        <div className="ml-2">FishTunes</div>
+        <div className="hover:text-[#8b1547] mr-2">
+          <Link href="/">x</Link>
         </div>
       </div>
-    </div>
 
-    {/* music grid container */}
-    <div className="flex-1 flex flex-col overflow-hidden">
-      {/* scrollable tracks list */}
-      <div className="flex-1 p-4 overflow-y-auto">
-        {loading ? (
-          <div className="h-full flex flex-col items-center justify-center space-y-4">
-            <div className="text-center font-mono whitespace-pre">
-              {loadingAnimation[loadingFrame]}
-            </div>
-            <div className="text-center text-xl">Loading tracks</div>
-          </div>
-        ) : error ? (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center text-xl text-red-500">Error: {error}</div>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 gap-2">
-              {tracksData.map((track, index) => (
-                <div 
-                  key={track.id} 
-                  className={`p-3 rounded-lg cursor-pointer hover:bg-neutral-800 ${
-                    currentTrackIndex === index ? 'bg-[#62102f]' : 'bg-neutral-900'
-                  }`}
-                  onClick={() => playTrack(index)}
-                >
-                  <div className="flex items-center">
-                    <div className="mr-2 w-4 h-4 md:w-8 md:h-8 flex items-center justify-center">
-                      {currentTrackIndex === index && isPlaying ? (
-                        <span className="text-white">&gt;</span>
-                      ) : (
-                        <span className="text-neutral-400">{index + 1}</span>
-                      )}
-                    </div>
-                    <div className="flex-1 overflow-hidden">
-                      <div className="font-medium text-white truncate">{track.name}</div>
-                      <div className="text-sm text-neutral-400 truncate">
-                        {track.artists[0]?.name}
-                      </div>
-                    </div>
-                    <div className="text-xs text-neutral-500 hidden md:block">
-                      {track.previewUrl ? (
-                        <span>30s Preview</span>
-                      ) : (
-                        <span className="text-red-400">No Preview</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {/* full playlist link */}
-            <div className="pt-4">
-              <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[#62102f] underline text-center block">
-                Full Playlist
+      {/* mobile top bar */}
+      <div className="lg:hidden p-2 text-center  flex justify-between items-center">
+        <button 
+          onClick={() => setShowPlaylistInfo(!showPlaylistInfo)}
+          className="ml-2 text-lg"
+        >
+          {showPlaylistInfo ? '×' : '☰'}
+        </button>
+        <Link 
+          href={playlists[currentPlaylist].link}  
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="hover:text-[#62102f] font-bold underline"
+        >
+          {currentPlaylist}
+        </Link>
+        <div className="w-6"></div> {/* Spacer for balance */}
+      </div>
+
+      {/* main content area */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* left sidebar - hidden on mobile */}
+        <div className="hidden lg:block w-1/5 border-r border-[#62102f] flex-col">
+          <div className="p-4 flex-1 overflow-y-hidden max-h-[30rem]">
+            <img
+              src={playlists[currentPlaylist].coverImage}
+              alt={`${currentPlaylist} cover`}
+              className="w-full rounded-lg"
+            />
+            <div className="mt-6 mb-2">
+              <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-[#62102f] underline">
+                {currentPlaylist}
               </Link>
             </div>
-          </>
-        )}
+            <p className="text-neutral-400 h-24">{playlists[currentPlaylist].desc}</p>
+          </div>
+
+          <div className="p-4 border-t border-t-[#62102f]">
+            <h2 className="text-lg font-bold mb-4">Playlists</h2>
+            <div className="overflow-y-auto max-h-[200px]">
+              {Object.keys(playlists).map((playlist) => (
+                <button
+                  key={playlist}
+                  onClick={() => {
+                    if (currentPlaylist !== playlist) {
+                      setCurrentPlaylist(playlist);
+                    }
+                  }}
+                  className={`w-full text-left p-2 mb-2 rounded flex items-center ${
+                    currentPlaylist === playlist
+                      ? "bg-[#62102f] text-white"
+                      : "text-neutral-400 hover:bg-neutral-800"
+                  }`}
+                >
+                  <span>{playlist}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* music grid container */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Mobile playlist info view (replaces tracks when toggled) */}
+          {showPlaylistInfo ? (
+            <div className="lg:hidden p-4 pt-0 overflow-y-auto flex flex-col gap-4">
+              <div className="flex gap-4 h-1/3">
+                <img
+                  src={playlists[currentPlaylist].coverImage}
+                  alt={`${currentPlaylist} cover`}
+                  className="mx-auto rounded-lg mb-6 w-1/3 h-full"
+                />
+              <div className="mb-4 w-2/3">
+                <p className="text-neutral-400 mb-4">{playlists[currentPlaylist].desc}</p>
+              </div>
+              </div>
+              
+              
+              <div className="space-y-2 h-2/3">
+                {Object.keys(playlists).map((playlist) => (
+                  <button
+                    key={playlist}
+                    onClick={() => {
+                      if (currentPlaylist !== playlist) {
+                        setCurrentPlaylist(playlist);
+                        setShowPlaylistInfo(false);
+                      }
+                    }}
+                    className={`w-full text-left p-3 rounded flex items-center ${
+                      currentPlaylist === playlist
+                        ? "bg-[#62102f] text-white"
+                        : "text-neutral-400 hover:bg-neutral-800"
+                    }`}
+                  >
+                    <span>{playlist}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* Original tracks view */
+            <div className="flex-1 p-4 overflow-y-auto">
+              {loading ? (
+                <div className="h-full flex flex-col items-center justify-center space-y-4">
+                  <div className="text-center font-mono whitespace-pre">
+                    {loadingAnimation[loadingFrame]}
+                  </div>
+                  <div className="text-center text-xl">Loading tracks</div>
+                </div>
+              ) : error ? (
+                <div className="h-full flex items-center justify-center">
+                  <div className="text-center text-xl text-red-500">Error: {error}</div>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 gap-2">
+                    {tracksData.map((track, index) => (
+                      <div 
+                        key={track.id} 
+                        className={`p-3 rounded-lg cursor-pointer hover:bg-neutral-800 ${
+                          currentTrackIndex === index ? 'bg-[#62102f]' : 'bg-neutral-900'
+                        }`}
+                        onClick={() => playTrack(index)}
+                      >
+                        <div className="flex items-center">
+                          <div className="mr-2 w-4 h-4 md:w-8 md:h-8 flex items-center justify-center">
+                            {currentTrackIndex === index && isPlaying ? (
+                              <span className="text-white">&gt;</span>
+                            ) : (
+                              <span className="text-neutral-400">{index + 1}</span>
+                            )}
+                          </div>
+                          <div className="flex-1 overflow-hidden">
+                            <div className="font-medium text-white truncate">{track.name}</div>
+                            <div className="text-sm text-neutral-400 truncate">
+                              {track.artists[0]?.name}
+                            </div>
+                          </div>
+                          <div className="text-xs text-neutral-500 hidden md:block">
+                            {track.previewUrl ? (
+                              <span>30s Preview</span>
+                            ) : (
+                              <span className="text-red-400">No Preview</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="pt-4">
+                    <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[#62102f] underline text-center block">
+                      Full Playlist
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </div>
 
   {/* controls section - hidden while loading */}
   {!loading && !error && (
