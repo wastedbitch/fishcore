@@ -310,11 +310,13 @@ export default function MusicPlayer() {
         {/* left sidebar - hidden on mobile */}
         <div className="hidden lg:block w-1/5 border-r border-[#62102f] flex-col">
           <div className="p-4 flex-1 overflow-y-hidden max-h-[30rem]">
+            <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="">
             <img
               src={playlists[currentPlaylist].coverImage}
               alt={`${currentPlaylist} cover`}
               className="w-full rounded-lg"
             />
+            </Link>
             <div className="mt-6 mb-2">
               <Link href={playlists[currentPlaylist].link} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-[#62102f] underline">
                 {currentPlaylist}

@@ -75,7 +75,7 @@ export default function GalleryClient({ images }) {
                   alt={`Image ${index}`}
                   width={isListView ? 1080 : 512}
                   height={isListView ? 1080 : 512}
-                  className={`rounded-lg shadow-md object-contain w-full ${
+                  className={`rounded-lg shadow-md object-cover w-full ${
                     isListView ? "h-auto" : ""
                   }`}
                   onLoad={() => handleImageLoad(index)}
