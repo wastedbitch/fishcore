@@ -1,4 +1,6 @@
 #!/bin/bash
+echo $(date -u +"%Y-%m-%dT%H:%M:%SZ") > public/last-updated.txt
+
 echo "Stopping old Prod container"
 docker stop fishcore 2>/dev/null || true
 
